@@ -2,8 +2,17 @@
 
 cd /d "%~dp0"
 
-echo Iniciando 5 Electrovalvula...
-for /L %%i in (0, 1, 4) do (
+echo Iniciando Servidor Mutex...
+start "Servidor Mutex" java -jar ServidorExclusionMutua.jar
+
+echo Esperando 3 segundos al Mutex...
+timeout /t 3 /nobreak > nul
+
+echo Iniciando Sistema Fertirrigacion...
+start "Sistema Fertirrigacion" java -jar SistemaFertirrigacion.jar
+
+echo Iniciando 7 Electrovalvula...
+for /L %%i in (0, 1, 6) do (
     start "Electrovalvula %%i" java -jar Electrovalula.jar %%i
 )
 
